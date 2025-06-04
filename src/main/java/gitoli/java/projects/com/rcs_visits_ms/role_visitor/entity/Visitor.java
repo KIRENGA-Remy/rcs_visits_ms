@@ -1,17 +1,15 @@
-package gitoli.java.projects.com.rcs_visits_ms.ROLE_VISITOR.entity;
+package gitoli.java.projects.com.rcs_visits_ms.role_visitor.entity;
 
-import gitoli.java.projects.com.rcs_visits_ms.ROLE_PRISONER.entity.Prisoner;
+import gitoli.java.projects.com.rcs_visits_ms.role_prisoner.entity.Prisoner;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
 
-@Entity
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "visitors")
 public class Visitor {
     @Id
@@ -27,10 +25,10 @@ public class Visitor {
     private String password;
     @Column(nullable = false, name = "relationship", length = 100)
     private String relationship;
-    @Column(nullable = false, name = "number_of_visitors", length = 10)
+    @Column(nullable = false, name = "number_of_visitors")
     private Integer numberOfVisitors;
-    @JoinColumn
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "prisoner_id", nullable = false)
     private Prisoner prisoner;
     @Column(nullable = false, name = "phone_number", length = 15)
     private String phoneNumber;

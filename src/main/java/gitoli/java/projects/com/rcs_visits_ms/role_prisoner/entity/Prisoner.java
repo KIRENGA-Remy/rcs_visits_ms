@@ -1,4 +1,4 @@
-package gitoli.java.projects.com.rcs_visits_ms.ROLE_PRISONER.entity;
+package gitoli.java.projects.com.rcs_visits_ms.role_prisoner.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

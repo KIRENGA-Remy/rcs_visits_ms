@@ -1,10 +1,11 @@
-package gitoli.java.projects.com.rcs_visits_ms.ROLE_VISITOR.repository;
+package gitoli.java.projects.com.rcs_visits_ms.role_visitor.repository;
 
-import gitoli.java.projects.com.rcs_visits_ms.ROLE_PRISONER.entity.Prisoner;
-import gitoli.java.projects.com.rcs_visits_ms.ROLE_VISITOR.entity.Visitor;
+import gitoli.java.projects.com.rcs_visits_ms.role_prisoner.entity.Prisoner;
+import gitoli.java.projects.com.rcs_visits_ms.role_visitor.entity.Visitor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,4 +16,7 @@ public interface VisitorRepository extends JpaRepository<Visitor, UUID> {
     Optional<Visitor> findByLastName(String lastName);
     Optional<Visitor> findByNationalId(String nationalId);
     Optional<Visitor> findByPrisoner(Prisoner prisoner);
+    List<Visitor> findAllByPrisonerId(UUID prisonerId);
+    boolean existsByEmail(String email);
+    boolean existsByNationalId(String nationalId);
 }
