@@ -45,10 +45,11 @@ public interface PrisonerRepository extends JpaRepository<Prisoner, UUID> {
     Page<Prisoner> findByIsActiveTrue(Pageable pageable);
 
     // Complex Search (e.g., for Admin Filtering)
-    @Query("SELECT p FROM Prisoner p WHERE " + "(:status IS NULL OR p.status = :status) AND " +
-            "(:courtStatus IS NULL OR p.courtStatus = :courtStatus) AND " +
-            "(:nationality IS NULL OR p.nationality = :nationality) AND" +
-            "(:name IS NULL OR LOWER(p.firstName) LIKE lower(CONCAT('%', :name, '%' )) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%')))")
+    @Query("SELECT p FROM Prisoner p WHERE " +
+            "(:status IS NULL OR LOWER(p.status ) LIKE LOWER(CONCAT('%', :status, '%'))) AND " +
+            "(:courtStatus IS NULL OR LOWER(p.courtStatus) LIKE LOWER(CONCAT('%', :courtStatus, '%'))) AND " +
+            "(:nationality IS NULL OR LOWER(p.nationality) LIKE LOWER(CONCAT('%', :nationality, '%'))) AND" +
+            "(:name IS NULL OR LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name, '%' )) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%')))")
     Page<Prisoner> searchPrisoners(
             @Param("status") PrisonerStatus status,
             @Param("courtStatus") CourtStatus courtStatus,
