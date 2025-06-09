@@ -1,8 +1,10 @@
 package gitoli.java.projects.com.rcs_visits_ms.entity;
 
 import gitoli.java.projects.com.rcs_visits_ms.entity.admin.Admin;
+import gitoli.java.projects.com.rcs_visits_ms.enums.SlipStatus;
 import gitoli.java.projects.com.rcs_visits_ms.enums.SlipType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -32,10 +34,22 @@ public class Slip {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SlipType slipType;
+    private SlipType slipType = SlipType.VISITOR_SLIP;
+
+    @NotBlank
+    @Column(nullable = false, unique = true, length = 50, name = "slip_number")
+    private String slipNumber;
 
     @Column(name = "slip_file_path", nullable = false)
     private String slipFilePath;
+
+    @NotBlank
+    @Column(nullable = false, name = "content")
+    private String content;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "slip_status")
+    private SlipStatus slipStatus = SlipStatus.SENDING;
 
     @Column(name = "generated_at", updatable = false, nullable = false)
     private LocalDateTime generatedAt;
@@ -46,6 +60,7 @@ public class Slip {
     @PrePersist
     private void onCreate() {
         this.generatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
     @PreUpdate
     private void onUpdate() {

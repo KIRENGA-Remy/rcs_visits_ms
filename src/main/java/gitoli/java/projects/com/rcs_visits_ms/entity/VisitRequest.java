@@ -40,14 +40,14 @@ public class VisitRequest {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private VisitorType visitorType;
+    private VisitorType visitorType = VisitorType.VISITOR;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RequestStatus status = RequestStatus.PENDING;
 
-    @Column(name = "requested_at", nullable = false)
+    @Column(name = "requested_at", updatable = false, nullable = false)
     private LocalDateTime requestedAt;
 
     @ManyToOne

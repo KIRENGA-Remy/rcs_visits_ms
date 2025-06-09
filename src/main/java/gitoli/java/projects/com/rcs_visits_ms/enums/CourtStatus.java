@@ -1,5 +1,5 @@
 package gitoli.java.projects.com.rcs_visits_ms.enums;
 
 public enum CourtStatus {
-    PENDING, HAPPENED
+    PENDING, HAPPENING, HAPPENED
 }
