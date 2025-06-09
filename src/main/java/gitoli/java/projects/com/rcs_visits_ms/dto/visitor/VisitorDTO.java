@@ -1,22 +1,32 @@
 package gitoli.java.projects.com.rcs_visits_ms.dto.visitor;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import gitoli.java.projects.com.rcs_visits_ms.entity.VisitSchedule;
+import gitoli.java.projects.com.rcs_visits_ms.enums.Role;
+import gitoli.java.projects.com.rcs_visits_ms.enums.VisitStatus;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class VisitorDTO {
     private UUID id;
     private String firstName;
     private String lastName;
     private String email;
     private String relationship;
-    private Integer numberOfVisitors;
+    private Integer numberOfAccompanyingVisitors;
     private UUID prisonerId;
     private String phoneNumber;
     private String nationalId;
+    private VisitSchedule visitSchedule;
+    private Role role;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private VisitStatus visitStatus;
+    private boolean isActive;
 }

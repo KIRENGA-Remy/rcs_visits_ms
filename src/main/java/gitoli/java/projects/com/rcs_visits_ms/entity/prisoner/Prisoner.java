@@ -41,6 +41,17 @@ public class Prisoner {
     @Column(nullable = false, name = "lastname", length = 50)
     private String lastName;
 
+    @NotBlank
+    @Email
+    @Size(max = 50)
+    @Column(nullable = false, name = "email", unique = true, length = 50)
+    private String email;
+
+    @NotBlank
+    @Size(max = 50)
+    @Column(nullable = false, name = "password", length = 50)
+    private String password;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "gender")

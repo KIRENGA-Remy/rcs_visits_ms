@@ -39,10 +39,10 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/visitors/**").permitAll()
-                        .requestMatchers("/api/lawyers/**").permitAll()
-                        .requestMatchers("/api/prisoners/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/visitors/**").authenticated()
+                        .requestMatchers("/api/lawyers/**").authenticated()
+                        .requestMatchers("/api/prisoners/**").authenticated()
+                        .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

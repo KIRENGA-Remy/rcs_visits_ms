@@ -17,6 +17,7 @@ import java.util.UUID;
 
 public interface PrisonerRepository extends JpaRepository<Prisoner, UUID> {
     Optional<Prisoner> findByNationalId(String nationalId);
+    Optional<Prisoner> findByEmail(String email);
 
     // Filtering by attributes
     List<Prisoner> findByStatus(PrisonerStatus status);
@@ -59,4 +60,5 @@ public interface PrisonerRepository extends JpaRepository<Prisoner, UUID> {
 
     //  Existence check
     boolean existsByNationality(String nationality);
+    boolean existsByEmail(String email);
 }

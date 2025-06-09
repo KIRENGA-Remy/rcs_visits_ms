@@ -1,6 +1,8 @@
 package gitoli.java.projects.com.rcs_visits_ms.entity;
 
 import gitoli.java.projects.com.rcs_visits_ms.entity.admin.Admin;
+import gitoli.java.projects.com.rcs_visits_ms.entity.lawyer.Lawyer;
+import gitoli.java.projects.com.rcs_visits_ms.entity.visitor.Visitor;
 import gitoli.java.projects.com.rcs_visits_ms.enums.SlipStatus;
 import gitoli.java.projects.com.rcs_visits_ms.enums.SlipType;
 import jakarta.persistence.*;
@@ -47,15 +49,26 @@ public class Slip {
     @Column(nullable = false, name = "slip_status")
     private SlipStatus slipStatus = SlipStatus.SENDING;
 
-    @OneToOne
-    @JoinColumn(name = "visit_request_id", nullable = false)
-    private VisitRequest visitRequest;
+    @ManyToOne
+    @JoinColumn(name = "visitor_id")
+    private Visitor visitor;
+
+    @ManyToOne
+    @JoinColumn(name = "lawyer_id")
+    private Lawyer lawyer;
+
+//    @OneToOne
+//    @JoinColumn(name = "visit_request_id", nullable = false)
+//    private VisitRequest visitRequest;
 
     @Column(name = "generated_at", updatable = false, nullable = false)
     private LocalDateTime generatedAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private boolean isActive = false;
 
     @PrePersist
     private void onCreate() {

@@ -14,8 +14,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder  // supports dynamic creation of objects
-public class PrisonerResponseDTO {
+@Builder
+public class PrisonerDTO {
     private UUID id;
     private String firstName;
     private String lastName;
