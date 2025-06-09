@@ -27,7 +27,7 @@ public class LawyerService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public LawyerDTO createLawyer(CreateLawyerDTO dto) {
         if (lawyerRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
@@ -49,7 +49,7 @@ public class LawyerService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public LawyerDTO updateLawyer(UUID id, CreateLawyerDTO dto) {
         Lawyer lawyer = lawyerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Lawyer not found with ID: " + id));
@@ -87,21 +87,21 @@ public class LawyerService {
         return mapToDTO(lawyer);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('LAWYER') and #id == principal.id)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') or (hasRole('LAWYER') and #id == principal.id)")
     public LawyerDTO getLawyer(UUID id) {
         Lawyer lawyer = lawyerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Lawyer not found with ID: " + id));
         return mapToDTO(lawyer);
     }
 
-    @PreAuthorize("hasRole('LAWYER')")
+    @PreAuthorize("hasRole('LAWYER') or hasRole('SUPER_ADMIN') ")
     public LawyerDTO getLawyerByEmail(String email) {
         Lawyer lawyer = lawyerRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Lawyer not found with email: " + email));
         return mapToDTO(lawyer);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public void deleteLawyer(UUID id) {
         if (!lawyerRepository.existsById(id)) {
             throw new IllegalArgumentException("Lawyer not found with ID: " + id);
@@ -109,7 +109,7 @@ public class LawyerService {
         lawyerRepository.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public Page<LawyerDTO> searchLawyers(SearchLawyerDTO dto, Pageable pageable) {
         if (dto.getPrisonerId() != null) {
             return lawyerRepository.findByPrisonerId(dto.getPrisonerId(), pageable)

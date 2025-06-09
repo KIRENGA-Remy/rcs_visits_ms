@@ -22,7 +22,7 @@ public class AdminService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public AdminDTO createAdmin(CreateAdminDTO dto) {
         if (adminRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
@@ -41,7 +41,7 @@ public class AdminService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') and #id == principal.id")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') and #id == principal.id")
     public AdminDTO updateAdmin(UUID id, CreateAdminDTO dto) {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found with ID: " + id));
@@ -73,21 +73,21 @@ public class AdminService {
         return mapToDTO(admin);
     }
 
-    @PreAuthorize("hasRole('ADMIN') and #id == principal.id")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') and #id == principal.id")
     public AdminDTO getAdmin(UUID id) {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found with ID: " + id));
         return mapToDTO(admin);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public AdminDTO getAdminByEmail(String email) {
         Admin admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found with email: " + email));
         return mapToDTO(admin);
     }
 
-    @PreAuthorize("hasRole('ADMIN') and #id == principal.id")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') and #id == principal.id")
     public void deleteAdmin(UUID id) {
         if (!adminRepository.existsById(id)) {
             throw new IllegalArgumentException("Admin not found with ID: " + id);
@@ -95,7 +95,7 @@ public class AdminService {
         adminRepository.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public Page<AdminDTO> searchAdmins(SearchAdminDTO dto, Pageable pageable) {
         if (dto.getOfficeName() != null && !dto.getOfficeName().isBlank()) {
             return adminRepository.findByOfficeName(dto.getOfficeName(), pageable)

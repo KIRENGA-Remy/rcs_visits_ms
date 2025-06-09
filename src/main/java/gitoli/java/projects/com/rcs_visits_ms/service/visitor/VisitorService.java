@@ -27,7 +27,7 @@ public class VisitorService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     public VisitorDTO createVisitor(CreateVisitorDTO dto) {
         if (visitorRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
@@ -46,7 +46,7 @@ public class VisitorService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     public VisitorDTO updateVisitor(UUID id, CreateVisitorDTO dto) {
         Visitor visitor = visitorRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Visitor not found with ID: " + id));
@@ -81,14 +81,14 @@ public class VisitorService {
         return mapToDTO(visitor);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('VISITOR') and #id == principal.id)")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('VISITOR') or hasRole('SUPER_ADMIN') and #id == principal.id)")
     public VisitorDTO getVisitor(UUID id) {
         Visitor visitor = visitorRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Visitor not found with ID: " + id));
         return mapToDTO(visitor);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public void deleteVisitor(UUID id) {
         if (!visitorRepository.existsById(id)) {
             throw new IllegalArgumentException("Visitor not found with ID: " + id);
@@ -96,7 +96,7 @@ public class VisitorService {
         visitorRepository.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
     public Page<VisitorDTO> searchVisitors(SearchVisitorDTO dto, Pageable pageable) {
         if (dto.getPrisonerId() != null) {
             return visitorRepository.findByPrisonerId(dto.getPrisonerId(), pageable)
@@ -132,7 +132,7 @@ public class VisitorService {
         return visitorRepository.findByIsActiveTrue(pageable).map(this::mapToDTO);
     }
 
-    @PreAuthorize("hasRole('VISITOR')")
+    @PreAuthorize("hasRole('VISITOR') or hasRole('SUPER_ADMIN') ")
     public VisitorDTO getVisitorByEmail(String email) {
         Visitor visitor = visitorRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Visitor not found with email: " + email));
