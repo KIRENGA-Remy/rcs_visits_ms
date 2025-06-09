@@ -23,10 +23,6 @@ public class Slip {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "visit_request_id", nullable = false)
-    private VisitRequest visitRequest;
-
     @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
@@ -50,6 +46,10 @@ public class Slip {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "slip_status")
     private SlipStatus slipStatus = SlipStatus.SENDING;
+
+    @OneToOne
+    @JoinColumn(name = "visit_request_id", nullable = false)
+    private VisitRequest visitRequest;
 
     @Column(name = "generated_at", updatable = false, nullable = false)
     private LocalDateTime generatedAt;

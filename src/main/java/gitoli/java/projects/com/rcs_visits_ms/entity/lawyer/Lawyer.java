@@ -73,6 +73,7 @@ public class Lawyer {
     @Column(nullable = false, name = "national_id", unique = true, length = 70)
     private String nationalId;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "visit_status", nullable = false)
     private VisitStatus visitStatus = VisitStatus.PENDING;
