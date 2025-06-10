@@ -32,6 +32,11 @@ public class Prisoner {
     private UUID id;
 
     @NotBlank
+    @Size(min = 1)
+    @Column(unique = true, nullable = false, name = "prisonercode")
+    private String prisonerCode;
+
+    @NotBlank
     @Size(max = 50)
     @Column(nullable = false, name = "firstname", length = 50)
     private String firstName;
@@ -61,15 +66,16 @@ public class Prisoner {
     @Column(nullable = false, name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @ManyToMany
-    @JoinTable(
-            name = "prisoner_lawyer",
-            joinColumns = @JoinColumn(name = "prisoner_id"),
-            inverseJoinColumns = @JoinColumn(name = "lawyer_id")
-    )
+//    @ManyToMany
+//    @JoinTable(
+//            name = "prisoner_lawyer",
+//            joinColumns = @JoinColumn(name = "prisoner_id"),
+//            inverseJoinColumns = @JoinColumn(name = "lawyer_id")
+//    )
+    @ManyToMany(mappedBy = "prisoner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lawyer> lawyers = new HashSet<>();
 
-    @OneToMany(mappedBy = "prisoner")
+    @OneToMany(mappedBy = "prisoner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Visitor> visitors = new HashSet<>();
 
     @Column(name = "date_of_imprisonment")

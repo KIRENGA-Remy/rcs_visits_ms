@@ -56,7 +56,7 @@ public class Visitor {
     @Column(nullable = false, name = "number_of_accompanying_visitors")
     private Integer numberOfAccompanyingVisitors;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "prisoner_id", nullable = false)
     private Prisoner prisoner;
 

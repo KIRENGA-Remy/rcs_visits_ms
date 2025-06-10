@@ -17,6 +17,7 @@ import java.util.UUID;
 @Builder
 public class PrisonerDTO {
     private UUID id;
+    private String prisonerCode;
     private String firstName;
     private String lastName;
     private Gender gender;

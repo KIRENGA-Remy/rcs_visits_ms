@@ -17,15 +17,17 @@ import java.util.UUID;
 
 public interface PrisonerRepository extends JpaRepository<Prisoner, UUID> {
     Optional<Prisoner> findByNationalId(String nationalId);
-    Optional<Prisoner> findByEmail(String email);
+    Optional<Prisoner> findByPrisonerCode(String prisonerCode);
 
     // Filtering by attributes
-    List<Prisoner> findByStatus(PrisonerStatus status);
-    List<Prisoner> findByCourtStatus(CourtStatus courtStatus);
-    List<Prisoner> findByNationality(String nationality);
-    List<Prisoner> findByGender(Gender gender);
-    List<Prisoner> findByDateOfImprisonmentBetween(LocalDate startDate, LocalDate endDate);
-    List<Prisoner> findByDateOfReleaseBefore(LocalDate date);
+    Page<Prisoner> findByStatus(PrisonerStatus status, Pageable pageable);
+    Page<Prisoner> findByCourtStatus(CourtStatus courtStatus, Pageable pageable);
+    Page<Prisoner> findByNationality(String nationality, Pageable pageable);
+    Page<Prisoner> findByGender(Gender gender, Pageable pageable);
+    Page<Prisoner> findByDateOfImprisonmentBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
+    Page<Prisoner> findByDateOfReleaseBefore(LocalDate date, Pageable pageable);
+    @Query(" SELECT p.prisonerCode FROM Prisoner p")
+    List<String> findAllPrisonerCodes();
 
     //Searching by Name (Partial Match)
     @Query("SELECT p FROM Prisoner p WHERE LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name ,'%')) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name ,'%'))")
@@ -60,5 +62,5 @@ public interface PrisonerRepository extends JpaRepository<Prisoner, UUID> {
 
     //  Existence check
     boolean existsByNationality(String nationality);
-    boolean existsByEmail(String email);
+    boolean existsByPrisonerCode(String prisonerCode);
 }

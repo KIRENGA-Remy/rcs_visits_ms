@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SearchPrisonerDTO {
+    private String prisonerCode;
     private PrisonerStatus status;
     private String email;
     private CourtStatus courtStatus;
