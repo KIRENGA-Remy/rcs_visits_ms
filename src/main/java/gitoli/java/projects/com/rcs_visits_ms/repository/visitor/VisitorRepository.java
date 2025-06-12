@@ -30,7 +30,7 @@ public interface VisitorRepository extends JpaRepository<Visitor, UUID> {
     Page<Visitor> findByPrisonerId(@Param("prisonerId") UUID prisonerId, Pageable pageable);
 
     @Query("SELECT v FROM Visitor v JOIN v.prisoner p WHERE LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
-    Page<Visitor> findByPrisonerName(@Param("name") String name, Pageable pageable);
+    Page<Visitor> findByVisitorName(@Param("name") String name, Pageable pageable);
 
     @Query("SELECT v FROM Visitor v WHERE " +
             "(:createdAt IS NULL OR v.createdAt = :createdAt) AND " +
@@ -68,4 +68,6 @@ public interface VisitorRepository extends JpaRepository<Visitor, UUID> {
     boolean existsByEmail(String email);
     boolean existsByNationalId(String nationalId);
     boolean existsByPhoneNumber(String phoneNumber);
+
+    boolean existsByIdAndIsActiveTrue(UUID id);
 }

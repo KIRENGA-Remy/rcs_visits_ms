@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrisonerService {
     private final PrisonerRepository prisonerRepository;
-    private LawyerRepository lawyerRepository;
-    private VisitorRepository visitorRepository;
-    private PasswordEncoder passwordEncoder;
-    private PrisonerMapper prisonerMapper;
+    private final LawyerRepository lawyerRepository;
+    private final VisitorRepository visitorRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PrisonerMapper prisonerMapper;
 
     public String generateNextPrisonerCode(){
         List<String> allCodes = prisonerRepository.findAllPrisonerCodes();
@@ -125,7 +125,7 @@ public class PrisonerService {
         prisoner.setGender(dto.getGender());
         prisoner.setDateOfBirth(dto.getDateOfBirth());
         prisoner.setEmail(dto.getEmail());
-        if(dto.getPassword() != null && dto.getPassword().isBlank()){
+        if(dto.getPassword() != null && !dto.getPassword().isBlank()){
             prisoner.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         prisoner.setLawyers(fetchLawyers(dto.getLawyerIds()));

@@ -5,6 +5,7 @@ import gitoli.java.projects.com.rcs_visits_ms.dto.lawyer.LawyerDTO;
 import gitoli.java.projects.com.rcs_visits_ms.dto.lawyer.SearchLawyerDTO;
 import gitoli.java.projects.com.rcs_visits_ms.entity.lawyer.Lawyer;
 import gitoli.java.projects.com.rcs_visits_ms.entity.prisoner.Prisoner;
+import gitoli.java.projects.com.rcs_visits_ms.enums.VisitStatus;
 import gitoli.java.projects.com.rcs_visits_ms.repository.lawyer.LawyerRepository;
 import gitoli.java.projects.com.rcs_visits_ms.repository.prisoner.PrisonerRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 public class LawyerService {
     private final LawyerRepository lawyerRepository;
     private final PrisonerRepository prisonerRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
@@ -38,7 +40,7 @@ public class LawyerService {
         if (lawyerRepository.existsByPhoneNumber(dto.getPhoneNumber())) {
             throw new IllegalArgumentException("Phone number already exists");
         }
-        if (lawyerRepository.existsByCompanyName(dto.getCompany())) {
+        if (lawyerRepository.existsByCompany(dto.getCompany())) {
             throw new IllegalArgumentException("Company name already exists");
         }
 
@@ -64,7 +66,7 @@ public class LawyerService {
         lawyerRepository.findByPhoneNumber(dto.getPhoneNumber())
                 .filter(l -> !l.getId().equals(id))
                 .ifPresent(l -> { throw new IllegalArgumentException("Phone number already exists"); });
-        lawyerRepository.findByCompanyName(dto.getCompany())
+        lawyerRepository.findByCompany(dto.getCompany())
                 .filter(l -> !l.getId().equals(id))
                 .ifPresent(l -> { throw new IllegalArgumentException("Company name already exists"); });
 

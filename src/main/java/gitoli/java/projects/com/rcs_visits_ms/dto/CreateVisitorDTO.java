@@ -1,6 +1,5 @@
-package gitoli.java.projects.com.rcs_visits_ms.dto.visitor;
+package gitoli.java.projects.com.rcs_visits_ms.dto;
 
-import gitoli.java.projects.com.rcs_visits_ms.entity.VisitSchedule;
 import gitoli.java.projects.com.rcs_visits_ms.enums.Role;
 import gitoli.java.projects.com.rcs_visits_ms.enums.VisitStatus;
 import jakarta.validation.constraints.*;
@@ -50,10 +49,10 @@ public class CreateVisitorDTO {
     @Size(max = 70, message = "National ID must be at most 70 characters")
     private String nationalId;
 
-    private VisitSchedule visitSchedule;
+    private VisitScheduleDTO visitScheduleDTO;
 
     @NotNull(message = "Role is required")
-    private Role role;
+    private Role role = Role.VISITOR;
 
     private VisitStatus visitStatus;
 }

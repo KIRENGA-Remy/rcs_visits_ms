@@ -74,7 +74,7 @@ public class Admin {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ADMIN;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_active")
     private boolean isActive= true;
 
     @PrePersist

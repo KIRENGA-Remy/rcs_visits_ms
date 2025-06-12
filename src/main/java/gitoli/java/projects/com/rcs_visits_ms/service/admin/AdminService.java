@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdminService {
     private final AdminRepository adminRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @PreAuthorize("hasRole('SUPER_ADMIN')")
@@ -96,6 +97,26 @@ public class AdminService {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
+//    public Page<AdminDTO> searchAdmins(SearchAdminDTO dto, Pageable pageable) {
+//        if (dto.getOfficeName() != null && !dto.getOfficeName().isBlank()) {
+//            return adminRepository.findByOfficeName(dto.getOfficeName())
+//                    .map(this::mapToDTO);
+//        }
+//        if (dto.getCreatedAt() != null || dto.getUpdatedAt() != null) {
+//            return adminRepository.findByCreatedAtAndUpdatedAt(dto.getCreatedAt(), dto.getUpdatedAt(), pageable)
+//                    .map(this::mapToDTO);
+//        }
+//        if (dto.getStartDate() != null || dto.getEndDate() != null) {
+//            return adminRepository.findByDateRange(dto.getStartDate(), dto.getEndDate(), pageable)
+//                    .map(this::mapToDTO);
+//        }
+//        if (dto.getName() != null && !dto.getName().isBlank()) {
+//            return adminRepository.findByName(dto.getName(), pageable)
+//                    .map(this::mapToDTO);
+//        }
+//        return adminRepository.findByIsActiveTrue(pageable).map(this::mapToDTO);
+//    }
+
     public Page<AdminDTO> searchAdmins(SearchAdminDTO dto, Pageable pageable) {
         if (dto.getOfficeName() != null && !dto.getOfficeName().isBlank()) {
             return adminRepository.findByOfficeName(dto.getOfficeName(), pageable)

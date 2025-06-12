@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,67 +25,73 @@ import java.util.UUID;
 @Entity
 @Table(name = "lawyers", schema = "rcs_visits_ms")
 public class Lawyer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, name = "firstname", length = 50)
+    @Column(name = "firstname", nullable = false, length = 50)
     private String firstName;
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, name = "lastname", length = 50)
+    @Column(name = "lastname", nullable = false, length = 50)
     private String lastName;
 
     @Email
     @NotBlank
     @Size(max = 70)
-    @Column(nullable = false, name = "email", length = 70, unique = true)
+    @Column(name = "email", nullable = false, length = 70, unique = true)
     private String email;
 
     @NotBlank
     @Size(max = 70)
-    @Column(nullable = false, name = "password", length = 70)
+    @Column(name = "password", nullable = false, length = 70)
     private String password;
-
-    @ManyToMany(mappedBy = "lawyers")
-    @JoinColumn(name = "prisoner_id")
-    private Set<Prisoner> prisoners;
 
     @NotBlank
     @Size(max = 15)
-    @Column(nullable = false, name = "phone_number", length = 15)
+    @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
 
     @NotBlank
     @Size(max = 100)
-    @Column(nullable = false, name = "company", length = 100)
+    @Column(name = "company", nullable = false, length = 100)
     private String company;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "degree")
-    private LawyerDegree degree = LawyerDegree.Bachelor_of_Laws;
 
     @NotBlank
     @Size(max = 70)
-    @Column(nullable = false, name = "national_id", unique = true, length = 70)
+    @Column(name = "national_id", nullable = false, unique = true, length = 70)
     private String nationalId;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "degree", nullable = false)
+    private LawyerDegree degree = LawyerDegree.Bachelor_of_Laws;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "visit_status", nullable = false)
     private VisitStatus visitStatus = VisitStatus.PENDING;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.LAWYER;
+
     @Embedded
     private VisitSchedule visitSchedule;
 
-    @NotNull
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.LAWYER;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "lawyer_prisoner",
+            schema = "rcs_visits_ms",
+            joinColumns = @JoinColumn(name = "lawyer_id"),
+            inverseJoinColumns = @JoinColumn(name = "prisoner_id")
+    )
+    private Set<Prisoner> prisoners = new HashSet<>();
 
     @Column(name = "created_at", updatable = false)
     private LocalDate createdAt;
@@ -92,7 +99,7 @@ public class Lawyer {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
     @PrePersist

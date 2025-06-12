@@ -21,7 +21,7 @@ public interface LawyerRepository extends JpaRepository<Lawyer, UUID> {
     Optional<Lawyer> findByEmail(String email);
     Optional<Lawyer> findByNationalId(String nationalId);
     Optional<Lawyer> findByPhoneNumber(String phoneNumber);
-    Optional<Lawyer> findByCompanyName(String company);
+    Optional<Lawyer> findByCompany(String company);
 
     List<Lawyer> findByIsActiveTrue();
     Page<Lawyer> findByIsActiveTrue(Pageable pageable);
@@ -67,7 +67,7 @@ public interface LawyerRepository extends JpaRepository<Lawyer, UUID> {
             " (:location IS NULL OR LOWER(l.visitSchedule.location) LIKE LOWER(CONCAT('%', :location, '%'))) AND " +
             "(:remarks IS NULL OR LOWER(l.visitSchedule.remarks) LIKE LOWER(CONCAT('%', :remarks, '%'))) AND " +
             "(:visitDateTime IS NULL OR DATE(l.visitSchedule.visitDateTime) = :visitDateTime) AND " +
-            "(:visitTime IS NULL OR LOWER(l.visitSchedule.visitTime) LIKE LOWER(CONCAT('%', :visitTime, '%'))")
+            "(:visitTime IS NULL OR LOWER(l.visitSchedule.visitTime) LIKE LOWER(CONCAT('%', :visitTime, '%')))")
     Page<Lawyer> findByVisitSchedule(
             @Param("location") String location,
             @Param("remarks") String remarks,
@@ -78,5 +78,5 @@ public interface LawyerRepository extends JpaRepository<Lawyer, UUID> {
     boolean existsByEmail(String email);
     boolean existsByNationalId(String nationalId);
     boolean existsByPhoneNumber(String phoneNumber);
-    boolean existsByCompanyName(String companyName);
+    boolean existsByCompany(String company);
 }

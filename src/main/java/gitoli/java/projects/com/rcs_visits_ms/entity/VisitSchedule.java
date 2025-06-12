@@ -9,8 +9,10 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Embeddable
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Embeddable
 public class VisitSchedule {
     private LocalDateTime visitDateTime;
     private String visitTime;

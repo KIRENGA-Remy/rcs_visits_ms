@@ -41,3 +41,42 @@ public class OpenApiConfig {
                 );
     }
 }
+
+
+//
+//package gitoli.java.projects.com.rcs_visits_ms.config;
+//
+//import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+//import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+//import io.swagger.v3.oas.annotations.info.Contact;
+//import io.swagger.v3.oas.annotations.info.Info;
+//import io.swagger.v3.oas.annotations.security.SecurityScheme;
+//import io.swagger.v3.oas.annotations.servers.Server;
+//import org.springframework.context.annotation.Configuration;
+//
+//@Configuration
+//@OpenAPIDefinition(
+//        info = @Info(
+//                title = "RCS Visits API",
+//                version = "1.0",
+//                description = "API documentation for the RCS Visits Management System",
+//                contact = @Contact(
+//                        name = "Gitoli Java Projects",
+//                        email = "support@example.com",
+//                        url = "https://your-website.com"
+//                )
+//        ),
+//        servers = {
+//                @Server(url = "http://localhost:8080", description = "Local Server"),
+//                @Server(url = "https://api.your-domain.com", description = "Production Server")
+//        }
+//)
+//@SecurityScheme(
+//        name = "bearerAuth",
+//        type = SecuritySchemeType.HTTP,
+//        bearerFormat = "JWT",
+//        scheme = "bearer"
+//)
+//public class OpenApiConfig {
+//    // No body required — annotations handle everything
+//}

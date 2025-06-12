@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,52 +26,47 @@ import java.util.UUID;
 @Entity
 @Table(name = "prisoners", schema = "rcs_visits_ms")
 public class Prisoner {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NotBlank
     @Size(min = 1)
-    @Column(unique = true, nullable = false, name = "prisonercode")
+    @Column(name = "prisonercode", unique = true, nullable = false)
     private String prisonerCode;
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, name = "firstname", length = 50)
+    @Column(name = "firstname", nullable = false, length = 50)
     private String firstName;
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, name = "lastname", length = 50)
+    @Column(name = "lastname", nullable = false, length = 50)
     private String lastName;
 
     @NotBlank
     @Email
     @Size(max = 50)
-    @Column(nullable = false, name = "email", unique = true, length = 50)
+    @Column(name = "email", unique = true, length = 50)
     private String email;
 
     @NotBlank
-    @Size(max = 50)
-    @Column(nullable = false, name = "password", length = 50)
+    @Size(max = 100)
+    @Column(name = "password", length = 100)
     private String password;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @NotNull
-    @Column(nullable = false, name = "date_of_birth")
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "prisoner_lawyer",
-//            joinColumns = @JoinColumn(name = "prisoner_id"),
-//            inverseJoinColumns = @JoinColumn(name = "lawyer_id")
-//    )
-    @ManyToMany(mappedBy = "prisoner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "prisoners", cascade = CascadeType.ALL)
     private Set<Lawyer> lawyers = new HashSet<>();
 
     @OneToMany(mappedBy = "prisoner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -98,16 +92,17 @@ public class Prisoner {
     private CourtStatus courtStatus = CourtStatus.PENDING;
 
     @NotBlank
-    @Column(columnDefinition = "TEXT", name = "conviction_of_crime", nullable = false)
+    @Column(name = "conviction_of_crime", nullable = false, columnDefinition = "TEXT")
     private String convictionOfCrime;
 
     @NotBlank
     @Size(max = 70)
-    @Column(name = "national_id", unique = true, length = 70)
+    @Column(name = "national_id", nullable = false, unique = true, length = 70)
     private String nationalId;
 
     @NotBlank
-    @Column(nullable = false, name = "nationality", length = 50)
+    @Size(max = 50)
+    @Column(name = "nationality", nullable = false, length = 50)
     private String nationality = "Rwandan";
 
     @Lob
@@ -115,17 +110,17 @@ public class Prisoner {
     private String healthDetails;
 
     @NotNull
-    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role = Role.PRISONER;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDate createdAt;
 
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
     @PrePersist

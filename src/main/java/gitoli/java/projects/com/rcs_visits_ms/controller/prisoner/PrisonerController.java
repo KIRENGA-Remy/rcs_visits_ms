@@ -35,7 +35,7 @@ public class PrisonerController {
             @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
     })
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<PrisonerDTO> createPrisoner(@Valid @RequestBody CreatePrisonerDTO dto) {
         PrisonerDTO prisoner = prisonerService.createPrisoner(dto);
         return new ResponseEntity<>(prisoner, HttpStatus.CREATED);
@@ -50,7 +50,7 @@ public class PrisonerController {
             @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
     })
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<PrisonerDTO> updatePrisoner(@PathVariable UUID id, @Valid @RequestBody CreatePrisonerDTO dto) {
         PrisonerDTO prisoner = prisonerService.updatePrisoner(id, dto);
         return ResponseEntity.ok(prisoner);
@@ -63,7 +63,7 @@ public class PrisonerController {
             @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
     })
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<PrisonerDTO> getPrisoner(@PathVariable UUID id) {
         PrisonerDTO prisoner = prisonerService.getPrisoner(id);
         return ResponseEntity.ok(prisoner);
@@ -76,10 +76,23 @@ public class PrisonerController {
             @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
     })
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<Void> deletePrisoner(@PathVariable UUID id) {
         prisonerService.deletePrisoner(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Display all prisoners", description = "Retrieves all available prisoners in the database.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Prisoners retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
+    })
+
+    @GetMapping()
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
+    public ResponseEntity<Page<PrisonerDTO>> getPrisoners(Pageable pageable) {
+        Page<PrisonerDTO> prisoners = prisonerService.getPrisoners(pageable);
+        return ResponseEntity.ok(prisoners);
     }
 
     @Operation(summary = "Search prisoners", description = "Searches prisoners by status, court status, nationality, or name")
@@ -87,8 +100,9 @@ public class PrisonerController {
             @ApiResponse(responseCode = "200", description = "Prisoners retrieved successfully"),
             @ApiResponse(responseCode = "403", description = "Forbidden: Admin role required")
     })
+
     @GetMapping("/search")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<Page<PrisonerDTO>> searchPrisoners(@ModelAttribute SearchPrisonerDTO dto, Pageable pageable) {
         Page<PrisonerDTO> prisoners = prisonerService.searchPrisoners(dto, pageable);
         return ResponseEntity.ok(prisoners);

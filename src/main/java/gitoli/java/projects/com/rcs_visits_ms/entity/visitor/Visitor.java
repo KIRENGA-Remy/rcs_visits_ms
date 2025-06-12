@@ -1,5 +1,6 @@
 package gitoli.java.projects.com.rcs_visits_ms.entity.visitor;
 
+import gitoli.java.projects.com.rcs_visits_ms.dto.VisitScheduleDTO;
 import gitoli.java.projects.com.rcs_visits_ms.entity.VisitSchedule;
 import gitoli.java.projects.com.rcs_visits_ms.entity.prisoner.Prisoner;
 import gitoli.java.projects.com.rcs_visits_ms.enums.Role;
@@ -57,7 +58,7 @@ public class Visitor {
     private Integer numberOfAccompanyingVisitors;
 
     @ManyToOne
-    @JoinColumn(name = "prisoner_id", nullable = false)
+    @JoinColumn(name = "prisoner_id")
     private Prisoner prisoner;
 
     @NotBlank
@@ -84,6 +85,7 @@ public class Visitor {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
+    @NotNull
     @Column(name = "visit_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private VisitStatus visitStatus = VisitStatus.PENDING;

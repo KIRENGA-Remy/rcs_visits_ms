@@ -25,6 +25,9 @@ public interface AdminRepository extends JpaRepository<Admin, UUID> {
     @Query("SELECT a FROM Admin a WHERE LOWER(a.firstName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Admin> findByName(@Param("name") String name, Pageable pageable);
 
+    @Query("SELECT a FROM Admin a WHERE LOWER(a.officeName) LIKE LOWER(CONCAT('%', :officeName, '%'))")
+    Page<Admin> findByOfficeName(@Param("officeName") String officeName, Pageable pageable);
+
     @Query("SELECT a FROM Admin a WHERE " +
             "(:createdAt IS NULL OR a.createdAt = :createdAt) AND " +
             "(:updatedAt IS NULL OR a.updatedAt = :updatedAt)")
