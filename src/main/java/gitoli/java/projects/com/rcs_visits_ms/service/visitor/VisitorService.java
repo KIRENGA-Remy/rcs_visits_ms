@@ -136,7 +136,7 @@ public class VisitorService {
                 "Visit Slip\nVisitor: %s %s\nPrisoner: %s %s\nVisit Date: %s\nVisit Time: %s\nLocation: %s\nStatus: %s",
                 visitor.getFirstName(), visitor.getLastName(),
                 visitor.getPrisoner().getFirstName(), visitor.getPrisoner().getLastName(),
-                visitor.getVisitSchedule().getVisitDateTime(),
+                visitor.getVisitSchedule().getVisitDate(),
                 visitor.getVisitSchedule().getVisitTime(),
                 visitor.getVisitSchedule().getLocation(),
                 visitor.getVisitStatus()
@@ -220,7 +220,7 @@ public class VisitorService {
 
         VisitSchedule visitSchedule = new VisitSchedule();
         visitSchedule.setLocation(dto.getLocation());
-        visitSchedule.setVisitDateTime(dto.getVisitDateTime() != null ? dto.getVisitDateTime().atStartOfDay() : null);
+        visitSchedule.setVisitDate(dto.getVisitDate() != null ? dto.getVisitDate() : null);
         visitSchedule.setVisitTime(dto.getVisitTime());
         visitSchedule.setRemarks(dto.getRemarks());
         return visitSchedule;

@@ -66,12 +66,12 @@ public interface LawyerRepository extends JpaRepository<Lawyer, UUID> {
     @Query("SELECT l FROM Lawyer l WHERE " +
             " (:location IS NULL OR LOWER(l.visitSchedule.location) LIKE LOWER(CONCAT('%', :location, '%'))) AND " +
             "(:remarks IS NULL OR LOWER(l.visitSchedule.remarks) LIKE LOWER(CONCAT('%', :remarks, '%'))) AND " +
-            "(:visitDateTime IS NULL OR DATE(l.visitSchedule.visitDateTime) = :visitDateTime) AND " +
+            "(:visitDate IS NULL OR DATE(l.visitSchedule.visitDate) = :visitDate) AND " +
             "(:visitTime IS NULL OR LOWER(l.visitSchedule.visitTime) LIKE LOWER(CONCAT('%', :visitTime, '%')))")
     Page<Lawyer> findByVisitSchedule(
             @Param("location") String location,
             @Param("remarks") String remarks,
-            @Param("visitDateTime") LocalDate visitDateTime,
+            @Param("visitDate") LocalDate visitDate,
             @Param("visitTime") String visitTime,
             Pageable pageable);
 

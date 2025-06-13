@@ -27,7 +27,7 @@ public class VisitorMapper {
                 .numberOfAccompanyingVisitors(visitor.getNumberOfAccompanyingVisitors())
                 .prisonerId(visitor.getPrisoner() != null ? visitor.getPrisoner().getId() : null)
                 .phoneNumber(visitor.getPhoneNumber())
-                .visitSchedule(toVisitScheduleDTO(visitor.getVisitSchedule()))
+                .visitScheduleDTO(toVisitScheduleDTO(visitor.getVisitSchedule()))
                 .visitStatus(visitor.getVisitStatus())
                 .role(visitor.getRole())
                 .createdAt(visitor.getCreatedAt())
@@ -38,12 +38,13 @@ public class VisitorMapper {
 
     public VisitScheduleDTO toVisitScheduleDTO(VisitSchedule visitSchedule) {
         if (visitSchedule == null) {
+            System.out.println("visitScheduleDTO is null");
             return null;
         }
 
         return VisitScheduleDTO.builder()
                 .location(visitSchedule.getLocation())
-                .visitDateTime(visitSchedule.getVisitDateTime() != null ? visitSchedule.getVisitDateTime().toLocalDate() : null)
+                .visitDate(visitSchedule.getVisitDate() != null ? visitSchedule.getVisitDate() : null)
                 .visitTime(visitSchedule.getVisitTime())
                 .remarks(visitSchedule.getRemarks())
                 .build();
@@ -77,7 +78,14 @@ public class VisitorMapper {
 
         VisitSchedule visitSchedule = new VisitSchedule();
         visitSchedule.setLocation(dto.getLocation());
-        visitSchedule.setVisitDateTime(dto.getVisitDateTime() != null ? dto.getVisitDateTime().atStartOfDay() : null);
+//        visitSchedule.setVisitDate(dto.getVisitDate() != null ? dto.getVisitDate().atStartOfDay() : null);
+        try {
+            visitSchedule.setVisitDate(dto.getVisitDate() != null ? dto.getVisitDate() : null);
+            System.out.println("visitDate set to: " + visitSchedule.getVisitDate());
+        } catch (Exception e) {
+            System.err.println("Error parsing visitDate: " + dto.getVisitDate() + ", " + e.getMessage());
+            throw new IllegalArgumentException("Invalid visitDate format: " + dto.getVisitDate(), e);
+        }
         visitSchedule.setVisitTime(dto.getVisitTime());
         visitSchedule.setRemarks(dto.getRemarks());
         return visitSchedule;

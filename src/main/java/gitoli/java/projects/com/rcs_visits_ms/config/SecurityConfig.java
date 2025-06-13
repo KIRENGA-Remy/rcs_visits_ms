@@ -46,6 +46,8 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/visitors/login").permitAll()
+                        .requestMatchers("/api/visitors/register").permitAll()
                         .requestMatchers("/api/visitors/**").authenticated()
                         .requestMatchers("/api/lawyers/**").authenticated()
                         .requestMatchers("/api/prisoners/**").authenticated()

@@ -48,11 +48,10 @@ public class CreateVisitorDTO {
     @NotBlank(message = "National ID is required")
     @Size(max = 70, message = "National ID must be at most 70 characters")
     private String nationalId;
-
+    
+    @NotNull
     private VisitScheduleDTO visitScheduleDTO;
 
-    @NotNull(message = "Role is required")
     private Role role = Role.VISITOR;
-
     private VisitStatus visitStatus;
 }

@@ -83,8 +83,7 @@ public class Prisoner {
     @Column(name = "status", nullable = false)
     private PrisonerStatus status = PrisonerStatus.DETAINED;
 
-    @Lob
-    @Column(name = "court_report")
+    @Column(name = "court_report", columnDefinition = "TEXT")
     private String courtReport;
 
     @Enumerated(EnumType.STRING)
@@ -105,8 +104,7 @@ public class Prisoner {
     @Column(name = "nationality", nullable = false, length = 50)
     private String nationality = "Rwandan";
 
-    @Lob
-    @Column(name = "health_details")
+    @Column(name = "health_details", columnDefinition = "TEXT")
     private String healthDetails;
 
     @NotNull

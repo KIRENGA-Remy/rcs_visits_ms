@@ -23,7 +23,7 @@ public class VisitorDTO {
     private UUID prisonerId;
     private String phoneNumber;
     private String nationalId;
-    private VisitScheduleDTO visitSchedule;
+    private VisitScheduleDTO visitScheduleDTO;
     private Role role;
     private VisitStatus visitStatus;
     private LocalDate createdAt;

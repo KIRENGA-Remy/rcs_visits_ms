@@ -56,12 +56,12 @@ public interface VisitorRepository extends JpaRepository<Visitor, UUID> {
     @Query("SELECT v FROM Visitor v WHERE " +
             "(:location IS NULL OR LOWER(v.visitSchedule.location) LIKE LOWER(CONCAT('%', :location, '%'))) AND " +
             "(:remarks IS NULL OR LOWER(v.visitSchedule.remarks) LIKE LOWER(CONCAT('%', :remarks, '%'))) AND " +
-            "(:visitDateTime IS NULL OR DATE(v.visitSchedule.visitDateTime) = :visitDateTime) AND " +
+            "(:visitDate IS NULL OR DATE(v.visitSchedule.visitDate) = :visitDate) AND " +
             "(:visitTime IS NULL OR LOWER(v.visitSchedule.visitTime) LIKE LOWER(CONCAT('%', :visitTime, '%')))")
     Page<Visitor> findByVisitSchedule(
             @Param("location") String location,
             @Param("remarks") String remarks,
-            @Param("visitDateTime") LocalDate visitDateTime,
+            @Param("visitDate") LocalDate visitDate,
             @Param("visitTime") String visitTime,
             Pageable pageable);
 
